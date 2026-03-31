@@ -1,6 +1,6 @@
 import { ClientError } from 'graphql-request';
 import datoCMSClient from './datoCMSClient';
-import { Certification } from '../types';
+// import { Certification } from '../types';
 import { FALLBACK_CERTIFICATIONS } from '../fallback/fallbackData';
 import { DATO_SCHEMA, RawCertification } from './schemaMap';
 
