@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './Certifications.css';
 import { Certification } from '../types';
 import { getCertifications } from '../queries/getCertifications';
+import { FaCertificate, FaExternalLinkAlt } from 'react-icons/fa';
 
 const Certifications: React.FC = () => {
   const [certifications, setCertifications] = useState<Certification[]>([]);
@@ -35,27 +36,33 @@ const Certifications: React.FC = () => {
 
       <div className="certifications-grid">
         {certifications.map((cert) => (
-          <a
-            href={cert.link}
+          <article
             key={`${cert.title}-${cert.issuedDate}`}
-            target="_blank"
-            rel="noopener noreferrer"
             className="certification-card"
           >
             <div className="certification-image-wrap">
-              <img
-                src={cert.link}
-                alt={cert.title}
-                className="certification-image"
-                loading="lazy"
-              />
+              <div className="certification-badge" aria-hidden="true">
+                <FaCertificate />
+              </div>
+              <p className="certification-icon-label">{cert.iconName || 'certificate'}</p>
             </div>
 
             <div className="certification-content">
               <h3>{cert.title}</h3>
               {cert.issuer && <p>{cert.issuer}</p>}
+              <span className="certification-issued-date">{cert.issuedDate}</span>
+              {cert.link && (
+                <a
+                  href={cert.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="certification-link"
+                >
+                  View credential <FaExternalLinkAlt />
+                </a>
+              )}
             </div>
-          </a>
+          </article>
         ))}
       </div>
     </div>

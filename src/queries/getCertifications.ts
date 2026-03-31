@@ -1,12 +1,12 @@
 import { ClientError } from 'graphql-request';
 import datoCMSClient from './datoCMSClient';
-// import { Certification } from '../types';
+import { Certification } from '../types';
 import { FALLBACK_CERTIFICATIONS } from '../fallback/fallbackData';
 import { DATO_SCHEMA, RawCertification } from './schemaMap';
 
 const GET_CERTIFICATIONS = `
   query GetAllCertifications {
-    ${DATO_SCHEMA.roots.certification} {
+    allCertifications: ${DATO_SCHEMA.roots.certification} {
       title
       issuer
       issueddate
