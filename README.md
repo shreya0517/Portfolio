@@ -1,123 +1,244 @@
-## 🌟 Sumanth Samala's Netflix inspired Portfolio 🌟 - https://sumanthsamala.com/
+# Shreya Garg Netflix Portfolio
 
-Welcome to my personal portfolio project! 🚀 This website showcases my work, skills, and experiences in web development. It's designed to be lightweight, customizable, and professional while maintaining an approachable style.
+A Netflix-inspired personal portfolio built with React, TypeScript, and DatoCMS. The project blends a cinematic landing experience with dynamic portfolio content such as certifications, work experience, timeline entries, recommendations, blog posts, and a resume viewer.
 
-Explore specific subdomains tailored to different tech stacks:
+## Overview
 
-- 🌟 [java.sumanthsamala.com](https://java.sumanthsamala.com/) for Java Spring Boot-related work.
-- 🌟 [node.sumanthsamala.com](https://node.sumanthsamala.com/) for Node.js and backend development.
-- 🌟 [frontend.sumanthsamala.com](https://frontend.sumanthsamala.com/) for frontend development expertise.
-- 🌟 [ror.sumanthsamala.com](https://ror.sumanthsamala.com/) for Ruby on Rails projects.
+This portfolio is designed to feel playful and polished while still being practical for recruiters, collaborators, and hiring teams. Content is driven by DatoCMS wherever possible, with graceful fallbacks and empty states for sections that may not have data yet.
 
-![Screenshot from 2024-12-08 19-19-06](https://github.com/user-attachments/assets/f8220485-16ec-48cf-8cb2-7853540c5724)
+## Features
 
----
+- Netflix-style intro screen and branded navigation
+- Dynamic DatoCMS-powered sections for:
+  - Certifications
+  - Work Experience
+  - Professional Timeline
+  - Recommendations
+  - Blog Posts
+  - Resume
+- Netflix-themed resume page with modal viewer and download support
+- Responsive layouts for desktop and mobile
+- Reusable empty states for sections without content
+- TypeScript-based data normalization for CMS responses
 
-## ✨ Features
+## Tech Stack
 
-- 🌍 **Dynamic Content**: Powered by [DatoCMS](https://www.datocms.com) for easy content management.
-- ⚡ **Fast & Responsive**: Built with modern web technologies for seamless performance.
-- 🎨 **Customizable**: Modular and easy to adapt to your own needs.
-- 📈 **Professional Yet Personal**: Highlights projects, skills, and achievements.
-- 🎨 It can support various por
+- React 18
+- TypeScript
+- React Router
+- GraphQL Request
+- DatoCMS
+- React Icons
+- CSS modules-by-feature style organization
 
----
+## Routes
 
-## 🛠️ Tech Stack
+Main routes currently available in the app:
 
-This portfolio is built with love and:
+- `/` - animated landing screen
+- `/browse` - portfolio browse page
+- `/resume` - Netflix-style resume viewer
+- `/experience` and `/work-experience` - work experience page
+- `/professional-timeline` - tree-style timeline page
+- `/certifications` - certifications page
+- `/recommendations` - recommendations page
+- `/blogs` - blog posts page
+- `/skills` - skills page
+- `/projects` - projects page
+- `/music` - music page
+- `/reading` - reading page
+- `/contact-me` - contact page
+- `/work-permit` - work permit page
 
-- ⚛️ **React** (Frontend)
-- ☁️ **AWS S3 & CloudFront** (Hosting and CDN)
-- 🖌️ **Tailwind CSS** (Styling)
-- 🛡️ **DatoCMS** (Content Management)
-- 🧩 **Other Cool Tools**: GitHub Actions
+## DatoCMS Models
 
----
+The app currently expects the following DatoCMS models and fields.
 
-## ⭐ Show Your Support
+### `timeline`
 
-If you find this project helpful or inspiring, give it a ⭐ on GitHub—it means the world to me! 🌟
+- `name`
+- `timelineType`
+- `title`
+- `dateRange`
+- `techStack`
+- `summaryPoints`
 
-Happy coding! 💻✨
+### `work_experience`
 
----
+- `company`
+- `role`
+- `location`
+- `startDate`
+- `endDate`
+- `isCurrentRole`
+- `summaryPoints`
+- `techStack`
 
-## 📚 Getting Started
+### `certification`
 
-Want to set this up locally? Follow these steps:
+- `title`
+- `issuer`
+- `issueddate`
+- `iconname`
+- `link`
 
-1. **Clone the Repository**: Copy the repository to your local system.
-2. **Install Dependencies**: Use a package manager to install the required dependencies.
+### `recommendation`
 
-```bash
-nvm install 18
-nvm use 18
+- `name`
+- `role`
+- `company`
+- `date`
+- `image`
+- `content`
+
+### `blog_post`
+
+- `title`
+- `description`
+- `link`
+
+### `resume`
+
+- `title`
+- `file`
+
+### `profilebanner`
+
+- `backgroundImage`
+- `headline`
+- `resumeLink`
+- `linkedinLink`
+- `profileSummary`
+
+## Example GraphQL Queries
+
+### Resume
+
+```graphql
+query {
+  allResumes {
+    title
+    file {
+      url
+    }
+  }
+}
 ```
 
-After upgrading Node.js, clear your node_modules and reinstall:
+### Work Experience
+
+```graphql
+query {
+  allWorkExperiences(orderBy: _createdAt_DESC) {
+    id
+    company
+    role
+    location
+    startDate
+    endDate
+    isCurrentRole
+    summaryPoints
+    techStack
+  }
+}
+```
+
+### Timeline
+
+```graphql
+query {
+  allTimelines(orderBy: _createdAt_DESC) {
+    timelineType
+    name
+    title
+    techStack
+    summaryPoints
+    dateRange
+  }
+}
+```
+
+## Local Setup
+
+### 1. Install dependencies
 
 ```bash
-rm -rf node_modules
-npm cache clean --force
 npm install
 ```
 
-3. **Configure Environment Variables**: Create a `.env` file and set up the necessary API keys and configurations.
-4. **Run the Project**: Start the development server.
+### 2. Configure environment variables
+
+Create a `.env` file and set the DatoCMS tokens you use locally.
+
+Example:
+
+```env
+REACT_APP_DATOCMS_FRONTEND_TOKEN=your_token_here
+REACT_APP_DATOCMS_NODE_TOKEN=your_token_here
+REACT_APP_DATOCMS_ROR_TOKEN=your_token_here
+REACT_APP_DATOCMS_JAVA_TOKEN=your_token_here
+```
+
+Optional:
+
+```env
+REACT_APP_RESUME_URL=https://your-public-resume-url.pdf
+```
+
+`REACT_APP_RESUME_URL` is useful when you want the resume viewer to use a public PDF or document URL directly.
+
+### 3. Start the project
 
 ```bash
 npm start
 ```
 
-5. **Visit the Local Server**: Open your browser and navigate to the local server URL.
-   ![alt text](image.png)
+### 4. Type check
 
----
+```bash
+npx tsc --noEmit
+```
 
-## 🤝 Contribution Guidelines
+## Resume Viewer Notes
 
-Contributions are welcome and appreciated! 🥳 To contribute:
+The resume experience supports two sources:
 
-1. Fork the repository.
-2. Create a new branch for your feature or fix.
-3. Commit your changes with a descriptive message.
-4. Push your changes to your branch.
-5. Open a Pull Request. 🎉
+1. The DatoCMS `resume` model
+2. `REACT_APP_RESUME_URL` as an override or fallback
 
----
+For the smoothest in-browser viewing experience, use a PDF file. Non-PDF files may rely on an external viewer and can behave differently on localhost.
 
-## 🐛 Issues and Feature Requests
+## Content Fallbacks
 
-Found a bug? Have a feature in mind? 🤔 Feel free to raise an issue or suggest a feature!
+This portfolio is built to fail gracefully when CMS content is unavailable or intentionally empty.
 
-1. Go to the **Issues** tab in the repository.
-2. Click **New Issue**.
-3. Provide a clear description of the bug or feature request.
-4. If applicable, include screenshots or steps to reproduce the issue.
+Current fallback behavior includes:
 
-Your feedback is valuable and helps make this project better for everyone. Thank you for contributing!
+- recommendations empty state
+- blogs empty state
+- work permit empty state
+- certifications fallback data
+- timeline fallback data
 
----
+This makes the portfolio safe to deploy even when some sections are still being filled in.
 
-## 🌟 Acknowledgments
+## Scripts
 
-- Thanks to [DatoCMS](https://www.datocms.com) for powering the dynamic content.
-- Inspired by countless developers in the open-source community. 💻
-- Special shoutout to all contributors—you rock! 🤘
+- `npm start` - start development server
+- `npm run build` - create production build
+- `npm test` - run tests
+- `npx tsc --noEmit` - run TypeScript validation
 
----
+## Deployment Notes
 
-## 📧 Contact Me
+If you deploy this project publicly, make sure:
 
-- 💼 [Portfolio Website](https://sumanthsamala.com)
-- 📧 Email: [chintusamala96@gmail.com](mailto:chintusamala96@gmail.com)
-- 🔗 [LinkedIn](https://uk.linkedin.com/in/sumanth-samala-82431161)
+- the DatoCMS environment and tokens point to the correct published content
+- resume/blog/recommendation entries are published, not draft
+- any externally hosted files are publicly accessible
 
----
+## License
 
-## 📜 License
+This project is private unless you choose to publish it under a separate license.
 
-This project is licensed under the MIT License. Feel free to use it, modify it, and share it! 🌈
-
----
+Inspired by Sumanth Samala, the original owner of the project concept and portfolio direction.

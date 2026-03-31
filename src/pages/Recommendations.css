@@ -2,6 +2,11 @@
 .timeline-container {
   display: flex;
   justify-content: center;
+  align-items: center;
+  width: 100%;
+  min-height: calc(100vh - 120px);
+  padding: 2rem 1rem;
+  box-sizing: border-box;
 }
 
 /* Styling for the recommendation card */
@@ -69,4 +74,10 @@
   font-size: 1.1rem;
   font-weight: bold;
   margin-bottom: 20px;
+}
+
+.recommendation-empty-state {
+  max-width: 800px;
+  border: 2px dotted #e50914;
+  background-color: #1e1e1e;
 }

@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import './ContactMe.css';
-import profilePic from '../images/sumanth.jpeg';
+import profilePic from '../images/portfolio/profiles/contact-profile.jpg';
 import { FaEnvelope, FaPhoneAlt, FaCoffee, FaLinkedin } from 'react-icons/fa';
 import { ContactMe as IContactMe } from '../types';
 import { getContactMe } from '../queries/getContactMe';
 
 const ContactMe: React.FC = () => {
-
-  const [userData, setUserData] = useState<IContactMe>()
+  const [userData, setUserData] = useState<IContactMe | null>(null);
 
   useEffect(() => {
     async function fetchUserData() {
@@ -18,18 +17,26 @@ const ContactMe: React.FC = () => {
     fetchUserData();
   }, []);
 
-  if (!userData) return <div>Loading...</div>;
+  if (!userData) {
+    return (
+      <div className="contact-container">
+        <p className="contact-status">Loading contact details...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="contact-container">
       <div className="linkedin-badge-custom">
-        <img src={profilePic} alt="Sumanth Samala" className="badge-avatar" />
+        <img
+          src={userData.profilePicture?.url || profilePic}
+          alt={userData.name}
+          className="badge-avatar"
+        />
         <div className="badge-content">
-          <h3 className="badge-name">{userData?.name}</h3>
+          <h3 className="badge-name">{userData.name}</h3>
           <p className="badge-title">{userData.title}</p>
-          <p className="badge-description">
-            {userData.summary}
-          </p>
+          <p className="badge-description">{userData.summary}</p>
           <p className="badge-company">{userData.companyUniversity}</p>
           <a
             href={userData.linkedinLink}
@@ -58,7 +65,7 @@ const ContactMe: React.FC = () => {
           </a>
         </div>
         <div className="contact-fun">
-          <p>Or catch up over a coffee ☕</p>
+          <p>Or catch up over a coffee.</p>
           <FaCoffee className="coffee-icon" />
         </div>
       </div>

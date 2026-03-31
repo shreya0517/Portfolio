@@ -1,26 +1,86 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import './Recommendations.css';
-import chrisProfilePic from '../images/chris.jpg'; // Adjust the path based on your directory structure
+import EmptyState from '../components/EmptyState';
+import { Recommendation } from '../types';
+import { FaHandsHelping } from 'react-icons/fa';
+import { getRecommendations } from '../queries/getRecommendations';
 
 const Recommendations: React.FC = () => {
+  const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function fetchRecommendations() {
+      try {
+        const items = await getRecommendations();
+
+        if (!isMounted) {
+          return;
+        }
+
+        setRecommendations(Array.isArray(items) ? items : []);
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    fetchRecommendations();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  if (isLoading) {
+    return <div className="timeline-container">Loading recommendations...</div>;
+  }
+
+  if (!recommendations.length) {
+    return (
+      <div className="timeline-container">
+        <EmptyState
+          title="Recommendations"
+          message="Recommendations coming soon."
+          icon={<FaHandsHelping />}
+          className="recommendation-empty-state"
+        />
+      </div>
+    );
+  }
+
   return (
-    <div className='timeline-container'>
-      <div className="recommendation-card">
-        <div className="recommendation-header">
-          <img src={chrisProfilePic} alt="Chris Smith" className="profile-pic" />
-          <div>
-            <h3>Chris Smith</h3>
-            <p>Head of Kajima Community</p>
-            <p className="date">October 24, 2024</p>
+    <div className="timeline-container">
+      {recommendations.map((recommendation) => (
+        <div
+          className="recommendation-card"
+          key={`${recommendation.name}-${recommendation.date}`}
+        >
+          <div className="recommendation-header">
+            {recommendation.profileImage && (
+              <img
+                src={recommendation.profileImage}
+                alt={recommendation.name}
+                className="profile-pic"
+              />
+            )}
+            <div>
+              <h3>{recommendation.name}</h3>
+              <p>{recommendation.role}</p>
+              {recommendation.company && <p>{recommendation.company}</p>}
+              <p className="date">{recommendation.date}</p>
+            </div>
+          </div>
+          <div className="recommendation-body">
+            {(recommendation.body.length ? recommendation.body : ['Recommendation details coming soon.']).map((paragraph, index) => (
+              <p key={`${recommendation.name}-${index}`}>{paragraph}</p>
+            ))}
           </div>
         </div>
-        <div className="recommendation-body">
-          <p>✨ "It is with great pleasure that I write this reference for Sumanth, who worked for us as a software developer at Kajima from June 2023. Unfortunately, due to a change in the company’s structure, we have made the difficult decision to make their position redundant. This in no way reflects on their performance, which was consistently excellent.</p>
-          <p>During their time with us, Sumanth demonstrated strong technical expertise, a passion for problem-solving, a willingness to learn, and a collaborative spirit that greatly contributed to our team’s success. They played a pivotal role in developing and maintaining key features of our software <strong>BookingsPlus</strong> and <strong>NHS Open Space</strong>, consistently delivering high-quality code while meeting project deadlines. Their ability to quickly adapt to new technologies and their proactive approach to finding innovative solutions set them apart."</p>
-          <p>💼 "Sumanth also showed exceptional teamwork and communication skills, effectively collaborating with cross-functional teams, including product managers, designers, and QA. Their professionalism, positive attitude, and dedication to their work made them an asset to the team."</p>
-          <p>🌟 "I have no doubt that Sumanth will be a valuable addition to any organization, and I wholeheartedly recommend them for any future opportunities."</p>
-        </div>
-      </div>
+      ))}
     </div>
   );
 };

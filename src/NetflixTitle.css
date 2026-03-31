@@ -8,11 +8,19 @@
 }
 
 .netflix-logo {
-  width: 500px;
+  width: min(84vw, 760px);
   height: auto;
+  display: block;
+  object-fit: contain;
   opacity: 0;
   transform: scale(0.8);
   animation: fadeIn 0.5s forwards ease-in;
+  filter: drop-shadow(0 0 24px rgba(229, 9, 20, 0.28));
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.netflix-container:hover .netflix-logo {
+  filter: drop-shadow(0 0 30px rgba(229, 9, 20, 0.38));
 }
 
 @keyframes fadeIn {
@@ -23,16 +31,26 @@
 }
 
 .animate.netflix-logo {
-  animation: zoomOut 3s forwards ease-in-out;
+  animation: zoomOut 2.95s forwards cubic-bezier(0.16, 0.84, 0.44, 1);
 }
 
 @keyframes zoomOut {
-  0%, 80% {
+  0%, 62% {
     transform: scale(0.8);
     opacity: 1;
   }
+  84% {
+    transform: scale(1.85);
+    opacity: 1;
+  }
   100% {
-    transform: scale(3);
+    transform: scale(3.6);
     opacity: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .netflix-logo {
+    width: min(92vw, 560px);
   }
 }

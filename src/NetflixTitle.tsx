@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './NetflixTitle.css';
 import netflixSound from './netflix-sound.mp3';
 import { useNavigate } from 'react-router-dom';
-import logoImage from '../src/images/logo-2.png'; // Update with the path to your logo
+import portfolioLogo from './images/portfolio_logo3.png';
 
 const NetflixTitle = () => {
   const [isClicked, setIsClicked] = useState(false);
@@ -18,7 +18,7 @@ const NetflixTitle = () => {
     if (isClicked) {
       const timer = setTimeout(() => {
         navigate('/browse');
-      }, 4000);
+      }, 3150);
       return () => clearTimeout(timer);
     }
   }, [isClicked, navigate]);
@@ -26,8 +26,8 @@ const NetflixTitle = () => {
   return (
     <div className="netflix-container" onClick={handlePlaySound}>
       <img 
-        src={logoImage} 
-        alt="Custom Logo" 
+        src={portfolioLogo} 
+        alt="Shreya Garg portfolio logo" 
         className={`netflix-logo ${isClicked ? 'animate' : ''}`} 
       />
     </div>

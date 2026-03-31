@@ -1,17 +1,17 @@
-// queries/getContactMe.ts
 import datoCMSClient from './datoCMSClient';
 import { ContactMe } from '../types';
+import { FALLBACK_CONTACT } from '../fallback/fallbackData';
+import { DATO_SCHEMA, RawContactMe } from './schemaMap';
 
 const GET_CONTACT_ME = `
   query {
-    contactMe {
+    ${DATO_SCHEMA.roots.contactMe} {
       profilePicture {
         url
       }
       name
       title
       summary
-      companyUniversity
       linkedinLink
       email
       phoneNumber
@@ -20,6 +20,19 @@ const GET_CONTACT_ME = `
 `;
 
 export async function getContactMe(): Promise<ContactMe> {
-  const data = await datoCMSClient.request<{ contactMe: ContactMe }>(GET_CONTACT_ME);
-  return data.contactMe;
+  try {
+    const data = await datoCMSClient.request<{ contactMe: RawContactMe }>(
+      GET_CONTACT_ME
+    );
+
+    if (!data?.contactMe) {
+      console.warn('CMS returned no contactMe. Using fallback.');
+      return FALLBACK_CONTACT;
+    }
+
+    return data.contactMe;
+  } catch (error) {
+    console.error('Error fetching contactMe, using fallback:', error);
+    return FALLBACK_CONTACT;
+  }
 }

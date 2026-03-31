@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './ProfileBanner.css';
 import PlayButton from '../components/PlayButton';
 import MoreInfoButton from '../components/MoreInfoButton';
@@ -6,7 +7,7 @@ import { getProfileBanner } from '../queries/getProfileBanner';
 import { ProfileBanner as ProfileBannerType } from '../types';
 
 const ProfileBanner: React.FC = () => {
-
+  const navigate = useNavigate();
 
   const [bannerData, setBannerData] = useState<ProfileBannerType | null>(null);
 
@@ -21,7 +22,7 @@ const ProfileBanner: React.FC = () => {
   if (!bannerData) return <div>Loading...</div>;
 
   const handlePlayClick = () => {
-    window.open(bannerData.resumeLink.url, '_blank');
+    navigate('/resume');
   };
 
   const handleLinkedinClick = () => { 

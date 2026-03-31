@@ -1,28 +1,47 @@
 // getDatoCmsToken.ts
 
+const firstNonEmpty = (...values: Array<string | undefined>): string =>
+  values.find((value) => Boolean(value?.trim())) ?? '';
+
 export const getDatoCmsToken = (): string => {
+  if (process.env.REACT_APP_DATOCMS_TOKEN) {
+    return process.env.REACT_APP_DATOCMS_TOKEN;
+  }
+
   const hostname = window.location.hostname;
 
   switch (hostname) {
-    case 'ror.sumanthsamala.com':
-    case 'sumanthsamala.com':
+    case 'ror.sheyagarg.com':
+    case 'sheyagarg.com':
     case 'ror.localhost':
-    case 'localhost':
       return process.env.REACT_APP_DATOCMS_ROR_TOKEN ?? '';
 
-    case 'java.sumanthsamala.com':
+    case 'java.sheyagarg.com':
     case 'java.localhost':
       return process.env.REACT_APP_DATOCMS_JAVA_TOKEN ?? '';
 
-    case 'frontend.sumanthsamala.com':
+    case 'frontend.sheyagarg.com':
     case 'frontend.localhost':
       return process.env.REACT_APP_DATOCMS_FRONTEND_TOKEN ?? '';
 
-    case 'node.sumanthsamala.com':
+    case 'node.sheyagarg.com':
     case 'node.localhost':
       return process.env.REACT_APP_DATOCMS_NODE_TOKEN ?? '';
 
+    case 'localhost':
+      return firstNonEmpty(
+        process.env.REACT_APP_DATOCMS_ROR_TOKEN,
+        process.env.REACT_APP_DATOCMS_NODE_TOKEN,
+        process.env.REACT_APP_DATOCMS_JAVA_TOKEN,
+        process.env.REACT_APP_DATOCMS_FRONTEND_TOKEN
+      );
+
     default:
-      throw new Error(`No DatoCMS token configured for hostname: ${hostname}`);
+      return firstNonEmpty(
+        process.env.REACT_APP_DATOCMS_FRONTEND_TOKEN,
+        process.env.REACT_APP_DATOCMS_ROR_TOKEN,
+        process.env.REACT_APP_DATOCMS_NODE_TOKEN,
+        process.env.REACT_APP_DATOCMS_JAVA_TOKEN
+      );
   }
 };

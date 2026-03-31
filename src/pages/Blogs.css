@@ -88,6 +88,10 @@
   color: #4a90e2;
 }
 
+.blogs-empty-state {
+  max-width: 800px;
+}
+
 /* Animations */
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-30px); }

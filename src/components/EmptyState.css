@@ -1,0 +1,50 @@
+.empty-state {
+  width: 100%;
+  max-width: 720px;
+  padding: 2rem;
+  border-radius: 16px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+  color: #f5f5f5;
+  animation: emptyStateFadeIn 0.4s ease-out;
+}
+
+.empty-state-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  margin-bottom: 1rem;
+  border-radius: 50%;
+  color: #e50914;
+  background: rgba(229, 9, 20, 0.12);
+  font-size: 1.5rem;
+}
+
+.empty-state-title {
+  margin: 0 0 0.75rem;
+  font-size: 1.75rem;
+  color: #ffffff;
+}
+
+.empty-state-message {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.78);
+}
+
+@keyframes emptyStateFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
