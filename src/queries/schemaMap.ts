@@ -1,7 +1,6 @@
 import {
   BlogPost,
   BookItem,
-  Certification,
   ContactMe,
   ExperienceItem,
   ProfileBanner,
