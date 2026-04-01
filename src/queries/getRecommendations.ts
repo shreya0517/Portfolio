@@ -2,6 +2,7 @@ import { ClientError } from 'graphql-request';
 import datoCMSClient from './datoCMSClient';
 import { Recommendation } from '../types';
 import { DATO_SCHEMA, RawRecommendation } from './schemaMap';
+import { normalizeUrl } from '../utils/normalizeUrl';
 
 const GET_RECOMMENDATIONS = `
   query GetAllRecommendations {
@@ -41,7 +42,7 @@ export async function getRecommendations(): Promise<Recommendation[]> {
       company: item.company,
       date: item.date,
       body: toParagraphs(item.content),
-      profileImage: item.profileImage?.url,
+      profileImage: normalizeUrl(item.profileImage?.url),
     }));
   } catch (error) {
     if (error instanceof ClientError) {

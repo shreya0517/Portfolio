@@ -4,6 +4,7 @@ import { getResume } from '../queries/getResume';
 import { ResumeItem } from '../types';
 import ResumeCard from '../components/ResumeCard';
 import ResumeModal from '../components/ResumeModal';
+import { normalizeUrl } from '../utils/normalizeUrl';
 
 const Resume: React.FC = () => {
   const [resumeData, setResumeData] = useState<ResumeItem | null>(null);
@@ -41,7 +42,7 @@ const Resume: React.FC = () => {
     };
   }, []);
 
-  const envResumeUrl = process.env.REACT_APP_RESUME_URL?.trim() ?? '';
+  const envResumeUrl = normalizeUrl(process.env.REACT_APP_RESUME_URL);
 
   if (isLoading) {
     return <div className="resume-page">Loading resume...</div>;
@@ -55,7 +56,7 @@ const Resume: React.FC = () => {
     return <div className="resume-page">Resume is not available right now.</div>;
   }
 
-  const resumeUrl = envResumeUrl || resumeData?.file.url || '';
+  const resumeUrl = envResumeUrl || normalizeUrl(resumeData?.file.url) || '';
   const isAbsoluteResumeUrl = /^https?:\/\//i.test(resumeUrl);
   const canPreviewInline = /\.pdf($|\?)/i.test(resumeUrl);
   const absoluteResumeUrl = isAbsoluteResumeUrl

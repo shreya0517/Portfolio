@@ -2,6 +2,7 @@ import datoCMSClient from './datoCMSClient';
 import { ContactMe } from '../types';
 import { FALLBACK_CONTACT } from '../fallback/fallbackData';
 import { DATO_SCHEMA, RawContactMe } from './schemaMap';
+import { normalizeUrl } from '../utils/normalizeUrl';
 
 const GET_CONTACT_ME = `
   query {
@@ -30,7 +31,16 @@ export async function getContactMe(): Promise<ContactMe> {
       return FALLBACK_CONTACT;
     }
 
-    return data.contactMe;
+    return {
+      ...data.contactMe,
+      profilePicture: data.contactMe.profilePicture
+        ? {
+            ...data.contactMe.profilePicture,
+            url: normalizeUrl(data.contactMe.profilePicture.url),
+          }
+        : data.contactMe.profilePicture,
+      linkedinLink: normalizeUrl(data.contactMe.linkedinLink),
+    };
   } catch (error) {
     console.error('Error fetching contactMe, using fallback:', error);
     return FALLBACK_CONTACT;

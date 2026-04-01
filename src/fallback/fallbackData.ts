@@ -10,10 +10,13 @@ import {
   ContactMe,
   WorkPermit,
 } from "../types";
+import portfolioLogo from "../images/portfolio_logo3.png";
+import brandingLogo from "../images/portfolio/branding/logo.png";
+import contactProfile from "../images/portfolio/profiles/contact-profile.jpg";
 
 // ⭐ 1. PROFILE BANNER
 export const FALLBACK_PROFILE_BANNER: ProfileBanner = {
-  backgroundImage: { url: "/images/my-bg.jpg" },
+  backgroundImage: { url: portfolioLogo },
   headline: "Hi, I'm Shreya Garg",
   resumeLink: { url: "/Resume.docx" },
   linkedinLink: "https://linkedin.com/in/your-link",
@@ -24,18 +27,18 @@ export const FALLBACK_PROFILE_BANNER: ProfileBanner = {
 // ⭐ 2. PROJECTS
 export const FALLBACK_PROJECTS: Project[] = [
   {
-    title: "Netflix Clone (React)",
+    title: "Netflix-Inspired Portfolio",
     description:
-      "A Netflix UI clone built with React, TMDB API, and Tailwind CSS.",
-    techUsed: "React, Tailwind, TMDB API",
-    image: { url: "/images/projects/netflix-clone.jpg" },
+      "A cinematic portfolio experience with profile selection, themed navigation, dynamic content sections, and resilient fallbacks when CMS content is unavailable.",
+    techUsed: "React, TypeScript, React Router, DatoCMS, CSS",
+    image: { url: brandingLogo },
   },
   {
-    title: "Portfolio Website",
+    title: "Resume Viewer Experience",
     description:
-      "A personal portfolio showcasing skills, projects, and experience.",
-    techUsed: "React, TypeScript, Tailwind",
-    image: { url: "/images/projects/portfolio.jpg" },
+      "A polished resume module with modal preview, download support, and production-safe URL handling for public files and CMS-driven assets.",
+    techUsed: "React, TypeScript, DatoCMS, GraphQL, CSS",
+    image: { url: portfolioLogo },
   },
 ];
 
@@ -148,7 +151,7 @@ export const FALLBACK_WORK_EXPERIENCE: WorkExperience[] = [
 
 // ⭐ 7. CONTACT ME
 export const FALLBACK_CONTACT: ContactMe = {
-  profilePicture: { url: "/images/profile/me.jpg" },
+  profilePicture: { url: contactProfile },
   name: "Shreya Garg",
   title: "Frontend Developer",
   summary: "I build beautiful and efficient user interfaces.",

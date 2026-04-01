@@ -5,6 +5,9 @@ import { SiRubyonrails, SiPostgresql, SiMongodb, SiMaterialdesign, SiHtml5, SiCs
 import { Project } from '../types';
 import { getProjects } from '../queries/getProjects';
 import { GrDeploy, GrKubernetes } from "react-icons/gr";
+import atomicHabitsCover from '../images/portfolio/reading/atomic-habits.jpg';
+
+const fallbackProjectImage = atomicHabitsCover;
 
 const techIcons: { [key: string]: JSX.Element } = {
   "ReactJS": <FaReact />,
@@ -83,7 +86,14 @@ const Projects: React.FC = () => {
             className="project-card"
             style={{ '--delay': `${index * 0.1}s` } as React.CSSProperties}
           >
-            <img src={project.image.url} alt={project.title} className="project-image" />
+            <img
+              src={project.image.url || fallbackProjectImage}
+              alt={project.title}
+              className="project-image"
+              onError={(event) => {
+                event.currentTarget.src = fallbackProjectImage;
+              }}
+            />
             <div className="project-details">
               <h3>{project.title}</h3>
               <p>{project.description}</p>

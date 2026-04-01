@@ -1,6 +1,7 @@
 import datoCMSClient from './datoCMSClient';
 import { MusicItem } from '../types';
 import { DATO_SCHEMA, RawMusicItem } from './schemaMap';
+import { normalizeUrl } from '../utils/normalizeUrl';
 
 const GET_MUSIC_ITEMS = `
   query GetAllMusicItems {
@@ -21,12 +22,14 @@ export async function getMusicItems(): Promise<MusicItem[]> {
       GET_MUSIC_ITEMS
     );
 
-    return (data?.allMusicItems ?? []).map((item) => ({
+    return (data?.allMusicItems ?? [])
+      .map((item) => ({
       id: item.id,
       title: item.title,
       singer: item.singer,
-      image: item.image.url,
-    }));
+      image: normalizeUrl(item.image?.url),
+    }))
+      .filter((item) => Boolean(item.image));
   } catch (error) {
     console.error('Error fetching music items from CMS:', error);
     throw error;

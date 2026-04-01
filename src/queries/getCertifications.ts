@@ -3,6 +3,7 @@ import datoCMSClient from './datoCMSClient';
 import { Certification } from '../types';
 import { FALLBACK_CERTIFICATIONS } from '../fallback/fallbackData';
 import { DATO_SCHEMA, RawCertification } from './schemaMap';
+import { normalizeUrl } from '../utils/normalizeUrl';
 
 const GET_CERTIFICATIONS = `
   query GetAllCertifications {
@@ -33,7 +34,7 @@ export async function getCertifications(): Promise<Certification[]> {
       title: cert.title,
       issuer: cert.issuer,
       issuedDate: cert.issueddate,
-      link: cert.link?.url ?? '',
+      link: normalizeUrl(cert.link?.url),
       iconName: cert.iconname,
     }));
   } catch (error) {

@@ -4,6 +4,7 @@ import EmptyState from '../components/EmptyState';
 import { Recommendation } from '../types';
 import { FaHandsHelping } from 'react-icons/fa';
 import { getRecommendations } from '../queries/getRecommendations';
+import profilePic from '../images/portfolio/profiles/contact-profile.jpg';
 
 const Recommendations: React.FC = () => {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
@@ -65,6 +66,9 @@ const Recommendations: React.FC = () => {
                 src={recommendation.profileImage}
                 alt={recommendation.name}
                 className="profile-pic"
+                onError={(event) => {
+                  event.currentTarget.src = profilePic;
+                }}
               />
             )}
             <div>

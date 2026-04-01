@@ -3,6 +3,7 @@ import datoCMSClient from './datoCMSClient';
 import { Project } from '../types';
 import { FALLBACK_PROJECTS } from "../fallback/fallbackData";
 import { DATO_SCHEMA, RawProject } from './schemaMap';
+import { normalizeUrl } from '../utils/normalizeUrl';
 
 const GET_PROJECTS = `
   query {
@@ -29,7 +30,15 @@ export async function getProjects(): Promise<Project[]> {
       return FALLBACK_PROJECTS;
     }
 
-    return data.allProjects;
+    return data.allProjects
+      .map((project) => ({
+        ...project,
+        image: {
+          ...project.image,
+          url: normalizeUrl(project.image?.url),
+        },
+      }))
+      .filter((project) => Boolean(project.image?.url));
 
   } catch (error) {
     console.error("Error fetching projects from CMS, using fallback:", error);

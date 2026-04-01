@@ -2,6 +2,7 @@ import { ClientError } from 'graphql-request';
 import datoCMSClient from './datoCMSClient';
 import { BlogPost } from '../types';
 import { DATO_SCHEMA, RawBlogPost } from './schemaMap';
+import { normalizeUrl } from '../utils/normalizeUrl';
 
 const GET_BLOGS = `
   query GetAllBlogPosts {
@@ -22,7 +23,10 @@ export async function getBlogs(): Promise<BlogPost[]> {
       return [];
     }
 
-    return data.allBlogPosts;
+    return data.allBlogPosts.map((blog) => ({
+      ...blog,
+      link: normalizeUrl(blog.link),
+    }));
   } catch (error) {
     if (error instanceof ClientError) {
       const issueList = error.response.errors?.map((issue) => ({

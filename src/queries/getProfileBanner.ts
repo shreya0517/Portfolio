@@ -3,6 +3,7 @@ import datoCMSClient from './datoCMSClient';
 import { ProfileBanner } from '../types';
 import { FALLBACK_PROFILE_BANNER } from '../fallback/fallbackData';
 import { DATO_SCHEMA, RawProfileBanner } from './schemaMap';
+import { normalizeUrl } from '../utils/normalizeUrl';
 
 const GET_PROFILE_BANNER = `
   query {
@@ -31,7 +32,14 @@ export async function getProfileBanner(): Promise<ProfileBanner> {
       return FALLBACK_PROFILE_BANNER;
     }
 
-    return data.profilebanner;
+    return {
+      ...data.profilebanner,
+      linkedinLink: normalizeUrl(data.profilebanner.linkedinLink),
+      resumeLink: {
+        ...data.profilebanner.resumeLink,
+        url: normalizeUrl(data.profilebanner.resumeLink?.url),
+      },
+    };
   } catch (error) {
     console.error('Error fetching profile banner, using fallback:', error);
     return FALLBACK_PROFILE_BANNER;

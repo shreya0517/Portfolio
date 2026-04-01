@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import './Reading.css';
 import { BookItem } from '../types';
 import { getBooks } from '../queries/getBooks';
+import atomicHabitsCover from '../images/portfolio/reading/atomic-habits.jpg';
+
+const fallbackBookCover = atomicHabitsCover;
 
 const Reading: React.FC = () => {
   const [books, setBooks] = useState<BookItem[]>([]);
@@ -60,7 +63,14 @@ const Reading: React.FC = () => {
             className="book-card"
             style={{ '--delay': `${index * 0.1}s` } as React.CSSProperties}
           >
-            <img src={book.coverImage} alt={book.title} className="book-cover" />
+            <img
+              src={book.coverImage || fallbackBookCover}
+              alt={book.title}
+              className="book-cover"
+              onError={(event) => {
+                event.currentTarget.src = fallbackBookCover;
+              }}
+            />
 
             <div className="book-info">
               <h3 className="book-title">{book.title}</h3>

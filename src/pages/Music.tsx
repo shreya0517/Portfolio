@@ -2,8 +2,10 @@ import React, { useEffect, useState } from 'react';
 import './Music.css';
 import { MusicItem } from '../types';
 import { getMusicItems } from '../queries/getMusicItems';
+import atomicHabitsCover from '../images/portfolio/reading/atomic-habits.jpg';
 
 const favoriteGenres = ["Rock", "Classic Rock", "Hard Rock", "Blues", "Alternative"];
+const fallbackAlbumImage = atomicHabitsCover;
 
 const Music: React.FC = () => {
   const [albums, setAlbums] = useState<MusicItem[]>([]);
@@ -74,10 +76,13 @@ const Music: React.FC = () => {
           {!isLoading && !error && albums.map((album, index) => (
             <div key={album.id} className="album-card" style={{ animationDelay: `${index * 0.3}s` }}>
               <img
-                src={album.image}
+                src={album.image || fallbackAlbumImage}
                 alt={album.title}
                 className="album-image"
                 loading="lazy"
+                onError={(event) => {
+                  event.currentTarget.src = fallbackAlbumImage;
+                }}
               />
               <div className="album-details">
                 <h4>{album.title}</h4>

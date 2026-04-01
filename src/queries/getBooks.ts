@@ -6,6 +6,7 @@ import theAlchemistCover from '../images/portfolio/reading/the-alchemist.jpg';
 import datoCMSClient from './datoCMSClient';
 import { BookItem } from '../types';
 import { DATO_SCHEMA, RawBookItem } from './schemaMap';
+import { normalizeUrl } from '../utils/normalizeUrl';
 
 const GET_BOOKS = `
   query GetAllBooks {
@@ -60,13 +61,15 @@ export async function getBooks(): Promise<BookItem[]> {
   try {
     const data = await datoCMSClient.request<{ allReadingItems: RawBookItem[] }>(GET_BOOKS);
 
-    return (data?.allReadingItems ?? []).map((book) => ({
+    const books = (data?.allReadingItems ?? []).map((book) => ({
       id: book.id,
       title: book.title,
       author: book.author,
       description: book.description,
-      coverImage: book.image?.url ?? '',
+      coverImage: normalizeUrl(book.image?.url),
     }));
+
+    return books.filter((book) => Boolean(book.coverImage));
   } catch (error) {
     if (error instanceof ClientError) {
       const missingBooksField = error.response.errors?.some(
